@@ -18,7 +18,11 @@ const Login = () => {
     }
 
     if(loading){
-        return (<main><h1>Loading.......</h1></main>)
+        return (
+            <main className='auth-loading' role='status' aria-label='Loading'>
+                <span className='auth-loading__spinner' aria-hidden='true' />
+            </main>
+        )
     }
 
 

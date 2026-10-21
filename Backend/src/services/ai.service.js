@@ -14,12 +14,12 @@ const interviewReportSchema = z.object({
         question: z.string().describe("The technical question can be asked in the interview"),
         intention: z.string().describe("The intention of interviewer behind asking this question"),
         answer: z.string().describe("How to answer this question, what points to cover, what approach to take etc.")
-    })).describe("Technical questions that can be asked in the interview along with their intention and how to answer them"),
+    })).min(5).max(8).describe("Generate 5 to 8 high-priority technical interview questions, each with its intention and a strong answer"),
     behavioralQuestions: z.array(z.object({
         question: z.string().describe("The technical question can be asked in the interview"),
         intention: z.string().describe("The intention of interviewer behind asking this question"),
         answer: z.string().describe("How to answer this question, what points to cover, what approach to take etc.")
-    })).describe("Behavioral questions that can be asked in the interview along with their intention and how to answer them"),
+    })).min(5).max(7).describe("Generate 5 to 7 high-priority behavioral interview questions, each with its intention and a strong answer"),
     skillGaps: z.array(z.object({
         skill: z.string().describe("The skill which the candidate is lacking"),
         severity: z.enum([ "low", "medium", "high" ]).describe("The severity of this skill gap, i.e. how important is this skill for the job and how much it can impact the candidate's chances")
@@ -35,7 +35,8 @@ const interviewReportSchema = z.object({
 async function generateInterviewReport({ resume, selfDescription, jobDescription }) {
 
 
-    const prompt = `Generate an interview report for a candidate with the following details:
+    const prompt = `Generate an interview report for a candidate with the following details.
+                        Include 10 to 15 high-priority interview questions in total: 5 to 8 technical questions and 5 to 7 behavioral questions. Tailor them to the job description and candidate's profile, avoid duplicates, and prioritize questions most likely to be asked.
                         Resume: ${resume}
                         Self Description: ${selfDescription}
                         Job Description: ${jobDescription}
